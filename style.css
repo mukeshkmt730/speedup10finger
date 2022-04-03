@@ -1,0 +1,187 @@
+
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
+
+*{
+    box-sizing: border-box;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0;
+    min-height: 100vh;
+    background-color: #1E0555;
+}
+
+.speedBox{
+    margin: 30px 0;
+    color: yellow;
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.progressBox{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 800px;
+    height: 20px;
+    margin: 30px 0;
+    position: relative;
+}
+
+.dot{
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+}
+.progressDot{
+    width: 20px;
+    height: 20px;
+    background-color: green;
+    border-radius: 50%;
+    position: absolute;
+    left: 0;
+}
+.dotLine{
+    width:760px ;
+    text-align: center;
+
+    color: white;
+    letter-spacing: 4px;
+    overflow: hidden;
+}
+
+.container{
+    /* display: none; */
+    background-color: yellow;
+    padding: 1rem;
+    border-radius: 1rem;
+    width: 800px;
+    max-width: 90%;
+}
+
+
+.quote-display{
+   margin:1rem calc(1rem + 2px);
+   font-size: 25px;
+   font-family: 'Roboto Slab', serif;
+}
+
+.inputBox{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.inputBox button{
+    height: 3rem;
+    font-family: 'Roboto Slab', serif;
+    font-size: 18px;
+    border: 2px soldi black;
+    border-radius: .5rem;
+    min-width: 15%;
+    cursor: pointer;
+}
+
+.quote-input{
+    width: 80%;
+    background-color: antiquewhite;
+    border: 2px solid #A1922E;
+    outline: none;
+    height: 3rem;
+    margin: auto;
+    resize: none;
+    padding: 10px 1rem;
+    font-size: 25px;
+    font-family: 'Roboto Slab', serif;
+    border-radius: .5rem;
+}
+
+.quote-input:focus{
+    border-color: black;
+}
+
+.quote-display>span{
+   display: inline-block;
+     margin: 0;
+     padding: 4px;
+}
+
+.correct{
+    color: blue;
+}
+
+.incorrect{
+    background-color: red;
+}
+
+.currentWord{
+    background-color: aquamarine;
+}
+
+.resultBox{
+    
+    width: 500px;
+    height: 450px;
+    background-color: azure;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 1rem;
+    padding: 30px 0;
+    font-family: 'Roboto Slab', serif;
+    display: none;
+}
+
+.resultBox > div{
+    width: 55%;
+    font-weight: bold;
+    font-size: 20px;
+    border-bottom: 1px solid black;
+    
+    padding-left: 10px;
+}
+.resultBox >button{
+    width: 55%;
+    height: 35px;
+    margin-top: 15px;
+    font-size: 15px;
+    border-radius: 8px;
+    color: white;
+    background-color: rgb(78, 66, 66);
+    border: 3px solid yellow;
+    cursor: pointer;
+}
+
+#speedResult{
+    margin-left: 38%;
+}
+#accuracyResult{
+    margin-left: 26%;
+}
+#timeResult{
+    margin-left: 41%;
+    color: rgb(188, 0, 245);
+}
+#correctword{
+    margin-left: 10%;
+    color: green;
+}
+#wrongWord{
+    margin-left: 12%;
+    color: red;
+}
+#KeystrokesCorrect{
+    margin-left: 20%;
+    color: green;
+}
+#KeystrokesWrong{
+    color: red;
+}
+
