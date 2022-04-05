@@ -57,7 +57,6 @@ body{
 }
 
 .container{
-    /* display: none; */
     background-color: yellow;
     padding: 1rem;
     border-radius: 1rem;
@@ -125,7 +124,6 @@ body{
 }
 
 .resultBox{
-    
     width: 500px;
     height: 450px;
     background-color: azure;
