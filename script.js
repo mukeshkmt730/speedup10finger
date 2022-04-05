@@ -7,15 +7,16 @@ let coveredLength = 0;
 let totalLength;
 let mistakes = 0;
 let wrongWords = 0;
+let totalkeypress = 0;
 
-
+// function to fetch api and return content of response
 function getRandomQuote() {
     return fetch(RANDOM_QUOTE_API_URL).
         then(res => res.json()).
         then(data => data.content);
 }
 
-
+// function to get content from getRandomQuote and set all word of content in span append quoteDisplay by these spans
 async function renderNextQuote() {
     try {
         const quote = await getRandomQuote();
@@ -34,23 +35,32 @@ async function renderNextQuote() {
 
 }
 
+// calling renderNextQuote function on page load or reload
 renderNextQuote();
 
-quoteInput.addEventListener('keyup', (e) => {
-    let quoteSpanArray = quoteDisplay.querySelectorAll('span');
 
-    if (!started) {
+// ************* main logic starts here **********************
+// adding event listener in input box
+quoteInput.addEventListener('keyup', (e) => {
+    totalkeypress++;        //counting each keyup
+
+    let quoteSpanArray = quoteDisplay.querySelectorAll('span');  //array of span/words in quoteDisplay box
+
+    if (!started) {       //starting timer or setting starttime on first keyup
         startTime = new Date();
         started = true;
     }
 
 
-    let quoteVal = quoteSpanArray[quoteIndex].innerText;
-    let inputVal = quoteInput.value.trim();
+    let quoteVal = quoteSpanArray[quoteIndex].innerText;  //getting word using current quorte array index
+    let inputVal = quoteInput.value.trim();               //getting typed value from inpur box and triming so that space from end remove
 
-
+    // if key is spacebar
     if (e.keyCode == 32) {
 
+        // check typed word is correct or not 
+        // if correct then move to next word and call calculateSpeedAndDisplay for update speed and progressbar or
+        // if not correct then reset the corrent word properties
         if (quoteVal == inputVal) {
             quoteSpanArray[quoteIndex].classList.add('correct');
             quoteSpanArray[quoteIndex].classList.remove('currentWord');
@@ -61,7 +71,7 @@ quoteInput.addEventListener('keyup', (e) => {
             coveredLength += inputVal.length + 1;
 
             if (quoteIndex >= quoteSpanArray.length)
-            coveredLength--;
+                coveredLength--;
 
             calculateSpeedAndDisplay(new Date());
 
@@ -74,7 +84,7 @@ quoteInput.addEventListener('keyup', (e) => {
             quoteSpanArray[quoteIndex].classList.add('currentWord');
             quoteSpanArray[quoteIndex].classList.remove('incorrect');
         }
-    } else {
+    } else {    // if key is not spacebar then check for mistakes
 
         if (inputVal.length > quoteVal.length) {
             if (e.keyCode != 8) mistakes++;
@@ -91,7 +101,7 @@ quoteInput.addEventListener('keyup', (e) => {
                 }
                 i++;
             }
-            if (i == inputVal.length) {
+            if (i == inputVal.length) {  //if no error found, means word is corrected;
                 quoteSpanArray[quoteIndex].classList.remove('incorrect');
                 quoteSpanArray[quoteIndex].classList.add('currentWord');
             }
@@ -101,35 +111,38 @@ quoteInput.addEventListener('keyup', (e) => {
 })
 
 
-
+// function for calculate gross speed and display it after every space key typed
 function calculateSpeedAndDisplay(endTime) {
     let time = (endTime - startTime) / 1000;
 
-    let speed = Math.round((((coveredLength+mistakes) / 5) / (time / 60)));
-    speedSpan.innerText = speed;
+    let grossSpeed = Math.round((totalkeypress / 5) / (time / 60));
+    speedSpan.innerText = grossSpeed;
 
+    // updating progressbar
     progressDot.style.left = `${780 * (coveredLength / totalLength)}px`;
 
-    if (coveredLength >= totalLength) {
-        displayResult(speed, time);
+    if (coveredLength >= totalLength) {  //if race is finished
+        displayResult(time);
     }
 }
 
-function displayResult(speed, time) {
-    let accuracy = (((coveredLength) * 100) / (coveredLength + mistakes)).toFixed(2);
+
+//function for display result div after complete the race
+function displayResult(time) {
+    let netSpeed = Math.round((((totalkeypress - mistakes) / 5) / (time / 60)));
+    let accuracy = (((totalkeypress - mistakes) * 100) / (totalkeypress)).toFixed(2);
 
     time = Math.floor(time);
     let minute = Math.floor(time / 60);
     let second = time % 60;
-
     let timeStr = "" + (minute > 9 ? minute : ("0" + minute)) + ":" + (second > 9 ? second : ("0" + second));
 
-    speedResult.innerText = speed;
+    speedResult.innerText = netSpeed;
     accuracyResult.innerText = accuracy;
     timeResult.innerText = timeStr;
     correctword.innerText = quoteIndex;
     wrongWord.innerText = wrongWords;
-    KeystrokesCorrect.innerText = coveredLength;
+    KeystrokesCorrect.innerText = totalkeypress - mistakes;
     KeystrokesWrong.innerText = mistakes;
 
     container.style.display = "none";
